@@ -12,6 +12,7 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Entity
 public class Person {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
@@ -21,9 +22,13 @@ public class Person {
     int age;
 
     @Column(nullable = false,unique = true)
-    String Email;
+    String emailId;
 
+    @Enumerated(EnumType.STRING)
     Gender gender;
 
-    int mobile;
+    boolean isDose1Taken;
+
+    boolean isDose2Taken;
+
 }
