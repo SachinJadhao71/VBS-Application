@@ -5,5 +5,6 @@ public enum DoseType {
     COVISHIELD,
     COVACCINE,
     SPUTNIK,
+    JIVANDROP
 
 }

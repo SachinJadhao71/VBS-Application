@@ -29,8 +29,6 @@ public class Dose {
     @CreationTimestamp
     Date vaccinationDate;
 
-//    from dose to person is many to one relationship
-//    first one is current class and second is connecting class
 
     @ManyToOne
     @JoinColumn

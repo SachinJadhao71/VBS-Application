@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,14 +24,23 @@ public class Person {
 
     int age;
 
-    @Column(nullable = false,unique = true)
+    @Column(unique = true)
     String emailId;
 
     @Enumerated(EnumType.STRING)
     Gender gender;
 
-    boolean isDose1Taken;
+    boolean dose1Taken;
 
-    boolean isDose2Taken;
+    boolean dose2Taken;
+
+    @OneToMany(mappedBy = "person",cascade = CascadeType.ALL)
+    List<Dose> doseTaken = new ArrayList<>();
+
+    @OneToOne(mappedBy = "person",cascade = CascadeType.ALL)
+    Certificate certificate;
+
+    @OneToMany(mappedBy = "person",cascade = CascadeType.ALL)
+    List<Appointment> appointments = new ArrayList<>();
 
 }
