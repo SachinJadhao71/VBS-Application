@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -65,6 +66,14 @@ public class PersonController {
     }
 
     // get all the people who are fully vaccinated
+
+    @GetMapping("/get_all_who_are_fully_vaccinated")
+    public ResponseEntity getAllWhoTakeBothDoses(){
+        List<String> all = personService.getAllWhoTakeBothDoses();
+
+        return new ResponseEntity(all,HttpStatus.ACCEPTED);
+    }
+
 
     // get all the people who have not taken even a single dose
 

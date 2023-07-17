@@ -92,4 +92,21 @@ public class PersonService {
 
         return list;
     }
+
+    public List<String> getAllWhoTakeBothDoses() {
+
+        List<Person> persons = personRepository.findAll();
+
+        List<String> ans = new ArrayList<>();
+
+        for(int i=0; i<persons.size(); i++){
+            Person person = persons.get(i);
+
+            if(person.isDose1Taken()==true && person.isDose2Taken()==true){
+                ans.add(person.getName());
+            }
+        }
+
+        return ans;
+    }
 }
