@@ -47,7 +47,7 @@ public class PersonController {
 
     // get all males of age greater than a certain age
 
-    @GetMapping("/get_all")
+    @GetMapping("/get_all_males_of_greater_than_certain_age")
     public ResponseEntity getAllMalesOfGreaterThanCertainAge(@RequestParam("age") int age){
         List<String> all = personService.getAllMalesOfGreaterThanCertainAge(age);
 
@@ -77,7 +77,29 @@ public class PersonController {
 
     // get all the people who have not taken even a single dose
 
+    @GetMapping("/get_all_who_have_not_taken_any_dose")
+    public ResponseEntity getAllWhoHaveNotTakenAnyDose(){
+        List<String> ans=  personService.getAllWhoHaveNotTakenAnyDose();
+
+        return new ResponseEntity<>(ans,HttpStatus.ACCEPTED);
+    }
+
+
     // get all females whose age is greater than a particular age and who have taken only dose 1
 
+    @GetMapping("/get_female_above_certain_age_with_dose1")
+    public ResponseEntity getAllTheFamlesAboveTheCertainAgeWithDose1(@RequestParam("age") int age){
+        List<String> ans = personService.getAllTheFamlesAboveTheCertainAgeWithDose1(age);
+
+        return new ResponseEntity<>(ans,HttpStatus.ACCEPTED);
+    }
+
     // get all males whose age is greater than a particular age and who have taken both
+
+    @GetMapping("/get_all_males_above_the_certain_age_and_taken_both_dose")
+    public ResponseEntity getAllTheMalesAboveCertainAgeAndTakenBothDose(@RequestParam("age") int age){
+        List<String> ans = personService.getAllTheMalesAboveCertainAgeAndTakenBothDose(age);
+
+        return new ResponseEntity<>(ans,HttpStatus.ACCEPTED);
+    }
 }

@@ -15,6 +15,7 @@ import com.example.VaccinationBookingSystem.dto.ResponseDto.BookDose2ResponseDto
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -131,8 +132,9 @@ public class DoseService {
         Person savedPerson = personRepository.save(person);
 
         savedPerson.getDoseTaken().add(dose);
+        List<Dose> doses = savedPerson.getDoseTaken();
 
-        Dose savedDose = savedPerson.getDoseTaken().get(1);
+        Dose savedDose = savedPerson.getDoseTaken().get(doses.size()-1);
 
 
 //        convert entity to response dto

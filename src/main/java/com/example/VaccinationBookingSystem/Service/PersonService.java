@@ -109,4 +109,53 @@ public class PersonService {
 
         return ans;
     }
+
+    public List<String> getAllWhoHaveNotTakenAnyDose() {
+        List<Person> all = personRepository.findAll();
+
+        List<String> ans = new ArrayList<>();
+
+        for(int i=0; i< all.size(); i++){
+            Person person = all.get(i);
+
+            if(!person.isDose1Taken() && !person.isDose2Taken()){
+                ans.add(person.getName());
+            }
+        }
+
+        return ans;
+    }
+
+    public List<String> getAllTheFamlesAboveTheCertainAgeWithDose1(int age) {
+
+        List<Person> all = personRepository.findByAge(age);
+
+        List<String> ans= new ArrayList<>();
+
+        for(int i=0; i<all.size(); i++){
+            Person person = all.get(i);
+
+            if(person.getGender()==Gender.FEMALE && person.isDose1Taken() && !person.isDose2Taken()){
+                ans.add(person.getName());
+            }
+        }
+
+        return ans;
+    }
+
+    public List<String> getAllTheMalesAboveCertainAgeAndTakenBothDose(int age) {
+        List<Person> all = personRepository.findByAge(age);
+
+        List<String> ans = new ArrayList<>();
+
+        for(int i=0; i<all.size(); i++){
+            Person person = all.get(i);
+
+            if(person.isDose1Taken() && person.isDose2Taken() && person.getGender()==Gender.MALE){
+                ans.add(person.getName());
+            }
+        }
+
+        return ans;
+    }
 }
