@@ -86,9 +86,10 @@ public class DoseService {
 
 
         person.setDose1Taken(true);
+        person.getDoseTaken().add(dose);
+
         Person savedPerson = personRepository.save(person);
 
-        savedPerson.getDoseTaken().add(dose);
 
         Dose savedDose =  savedPerson.getDoseTaken().get(0);
 
@@ -128,10 +129,11 @@ public class DoseService {
         dose.setPerson(person);
 
         person.setDose2Taken(true);
+        person.getDoseTaken().add(dose);
 
         Person savedPerson = personRepository.save(person);
 
-        savedPerson.getDoseTaken().add(dose);
+
         List<Dose> doses = savedPerson.getDoseTaken();
 
         Dose savedDose = savedPerson.getDoseTaken().get(doses.size()-1);

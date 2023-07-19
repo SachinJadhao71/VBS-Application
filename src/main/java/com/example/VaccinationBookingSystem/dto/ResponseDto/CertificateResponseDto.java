@@ -1,6 +1,7 @@
 package com.example.VaccinationBookingSystem.dto.ResponseDto;
 
 
+import com.example.VaccinationBookingSystem.Enum.DoseType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -13,11 +14,13 @@ import java.util.Date;
 @Getter
 public class CertificateResponseDto {
 
-    String personName;
+    Date dose1Date;
 
-//    Date Dose1Date;
-//
-//    Date Dose2Date;
+    DoseType dose1Type;
+
+    Date dose2Date;
+
+    DoseType dose2Type;
 
     String message;
 }
