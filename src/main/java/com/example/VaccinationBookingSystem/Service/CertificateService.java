@@ -64,12 +64,13 @@ public class CertificateService {
         simpleMailMessage.setSubject("Congrats Your Vaccination Certificate Is Generated..!");
         simpleMailMessage.setFrom("VaccinationBooking123@gmail.com");
         simpleMailMessage.setTo(person.getEmailId());
-        simpleMailMessage.setText("Congratulation Mr/Mrs. " + person.getName() + " You Have Taken Both Doses " +
-                "That's why this certificate is given to you, Thank you for cooprate to the government " +
+        simpleMailMessage.setText("Congratulation Mr/Mrs. " + person.getName() + " " + System.lineSeparator() + "You Have Taken Both Doses " +
+                "That's why this certificate is given to you," + System.lineSeparator() + "Thank you for cooprate to the government " +
                 "And if any of your friend or relative are still left from vaccination so please inform them " +
-                "to take dose and save himself and family , Thank you... stay vaccinated and stay healthy...!" +
-                "Your Information Of Doses as follows : " + "Dose1 Type : " + dose1.getDoseType() + ",   Dose1 Date : " + dose1.getVaccinationDate() + "" +
-                ",  Dose2 Type : " + dose2.getDoseType() + ",  Dose2 Date :  " + dose2.getVaccinationDate() + " Dhanyawad..!!!");
+                "to take dose and save himself and family. " + System.lineSeparator() + "Thank you... Stay Vaccinated and Stay Healthy...!" +
+                System.lineSeparator() +  "Your Information Of Doses as follows : " + System.lineSeparator() + "Dose1 Type : " + dose1.getDoseType() + System.lineSeparator() +
+                "Dose1 Date : " + dose1.getVaccinationDate() + System.lineSeparator() +
+                "Dose2 Type : " + dose2.getDoseType() + System.lineSeparator() + "Dose2 Date :  " + dose2.getVaccinationDate() + System.lineSeparator() +"Dhanyawad..!!!");
 
         javaMailSender.send(simpleMailMessage);
 
