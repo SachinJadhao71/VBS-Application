@@ -16,6 +16,14 @@ public interface PersonRepository extends JpaRepository<Person,Integer> {
     @Query(value = "select * from person where age > :age", nativeQuery = true)
     List<Person> findByAge(int age);
 
+    @Query("select p from Person p where p.gender = :gender")
+    public List<Person> findAllFemale(Gender gender);
 
+    @Query("SELECT p FROM Person p WHERE p.dose1Taken = false and p.dose2Taken = false")
+    public List<Person> findAllByVaccination();
+
+
+    @Query("select p from Person p where p.age > :age and p.gender = :gender")
+    public List<Person> findByAgeAndByGender(int age, Gender gender);
 
 }

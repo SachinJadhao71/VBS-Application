@@ -5,6 +5,7 @@ import com.example.VaccinationBookingSystem.Model.Person;
 import com.example.VaccinationBookingSystem.Service.PersonService;
 import com.example.VaccinationBookingSystem.dto.RequestDto.AddPersonRequestdto;
 import com.example.VaccinationBookingSystem.dto.ResponseDto.AddPersonResponsedto;
+import com.example.VaccinationBookingSystem.dto.ResponseDto.PersonResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,7 +50,7 @@ public class PersonController {
 
     @GetMapping("/get_all_males_of_greater_than_certain_age")
     public ResponseEntity getAllMalesOfGreaterThanCertainAge(@RequestParam("age") int age){
-        List<String> all = personService.getAllMalesOfGreaterThanCertainAge(age);
+        List<PersonResponseDto> all = personService.getAllMalesOfGreaterThanCertainAge(age);
 
         return new ResponseEntity(all,HttpStatus.OK);
     }
@@ -59,17 +60,17 @@ public class PersonController {
     // get all females who have taken only dose 1 not dose 2
 
     @GetMapping("/get_all_female_who_taken_dose1")
-    public ResponseEntity getAllFemalesWhoTakenDose1(){
-        List<String> all = personService.getAllFemalesWhoTakenDose1();
+    public ResponseEntity getAllFemalesWhoTakenOnlyDose1(){
+        List<PersonResponseDto> responseDtoList = personService.getAllFemalesWhoTakenOnlyDose1();
 
-        return new ResponseEntity(all,HttpStatus.OK);
+        return new ResponseEntity(responseDtoList,HttpStatus.OK);
     }
 
     // get all the people who are fully vaccinated
 
     @GetMapping("/get_all_who_are_fully_vaccinated")
     public ResponseEntity getAllWhoTakeBothDoses(){
-        List<String> all = personService.getAllWhoTakeBothDoses();
+        List<PersonResponseDto> all = personService.getAllWhoTakeBothDoses();
 
         return new ResponseEntity(all,HttpStatus.ACCEPTED);
     }
@@ -79,7 +80,7 @@ public class PersonController {
 
     @GetMapping("/get_all_who_have_not_taken_any_dose")
     public ResponseEntity getAllWhoHaveNotTakenAnyDose(){
-        List<String> ans=  personService.getAllWhoHaveNotTakenAnyDose();
+        List<PersonResponseDto> ans=  personService.getAllWhoHaveNotTakenAnyDose();
 
         return new ResponseEntity<>(ans,HttpStatus.ACCEPTED);
     }
@@ -89,7 +90,7 @@ public class PersonController {
 
     @GetMapping("/get_female_above_certain_age_with_dose1")
     public ResponseEntity getAllTheFamlesAboveTheCertainAgeWithDose1(@RequestParam("age") int age){
-        List<String> ans = personService.getAllTheFamlesAboveTheCertainAgeWithDose1(age);
+        List<PersonResponseDto> ans = personService.getAllTheFamlesAboveTheCertainAgeWithDose1(age);
 
         return new ResponseEntity<>(ans,HttpStatus.ACCEPTED);
     }
@@ -98,7 +99,7 @@ public class PersonController {
 
     @GetMapping("/get_all_males_above_the_certain_age_and_taken_both_dose")
     public ResponseEntity getAllTheMalesAboveCertainAgeAndTakenBothDose(@RequestParam("age") int age){
-        List<String> ans = personService.getAllTheMalesAboveCertainAgeAndTakenBothDose(age);
+        List<PersonResponseDto> ans = personService.getAllTheMalesAboveCertainAgeAndTakenBothDose(age);
 
         return new ResponseEntity<>(ans,HttpStatus.ACCEPTED);
     }

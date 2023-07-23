@@ -8,6 +8,8 @@ import com.example.VaccinationBookingSystem.Model.Person;
 import com.example.VaccinationBookingSystem.Repository.PersonRepository;
 import com.example.VaccinationBookingSystem.dto.RequestDto.AddPersonRequestdto;
 import com.example.VaccinationBookingSystem.dto.ResponseDto.AddPersonResponsedto;
+import com.example.VaccinationBookingSystem.dto.ResponseDto.PersonResponseDto;
+import com.example.VaccinationBookingSystem.transformer.PersonTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,7 +58,7 @@ public class PersonService {
         Person person = personRepository.findByEmailId(oldEmail);
 
         if(person == null){
-            throw new EmailNotFoundException("oldEmail does not exists");
+            throw new EmailNotFoundException("oldEmail doesn't exists");
         }
 
         person.setEmailId(newEmail);
@@ -66,96 +68,89 @@ public class PersonService {
         return "Your Email successfully updated";
     }
 
-    public List<String> getAllMalesOfGreaterThanCertainAge(int age) {
-        List<Person> all = personRepository.findByAge(age);
+    public List<PersonResponseDto> getAllMalesOfGreaterThanCertainAge(int age) {
+        List<Person> allPerson = personRepository.findByAge(age);
 
-        List<String> names = new ArrayList<>();
-        for(int i=0; i<all.size(); i++){
-            if(all.get(i).getGender() == Gender.MALE)
-                names.add(all.get(i).getName());
+        List<PersonResponseDto> responseDtos = new ArrayList<>();
+
+        for(Person person : allPerson){
+            PersonResponseDto personResponseDto = PersonTransformer.PersonToPersonResponseDto(person);
+            responseDtos.add(personResponseDto);
         }
-        return names;
+
+        return responseDtos;
     }
 
-    public List<String> getAllFemalesWhoTakenDose1() {
+    public List<PersonResponseDto> getAllFemalesWhoTakenOnlyDose1() {
+
+        List<Person> femaleList = personRepository.findAllFemale(Gender.FEMALE);
+
+        List<PersonResponseDto> responseDtos = new ArrayList<>();
+
+        for (Person person : femaleList) {
+            if (person.isDose1Taken() && !person.isDose2Taken()) {
+                responseDtos.add(PersonTransformer.PersonToPersonResponseDto(person));
+            }
+        }
+        return responseDtos;
+    }
+
+    public List<PersonResponseDto> getAllWhoTakeBothDoses() {
+
         List<Person> personList = personRepository.findAll();
 
-        List<String> list = new ArrayList<>();
+        List<PersonResponseDto> responseDtoList = new ArrayList<>();
 
-        for(int i=0; i<personList.size(); i++){
-            Person person = personList.get(i);
-
-            if(person.isDose1Taken()==true && person.isDose2Taken()==false && person.getGender()==Gender.FEMALE){
-                list.add(person.getName());
+        for(Person person : personList){
+            if(person.isDose1Taken() && person.isDose2Taken()){
+                responseDtoList.add(PersonTransformer.PersonToPersonResponseDto(person));
             }
         }
 
-        return list;
+        return responseDtoList;
+
     }
 
-    public List<String> getAllWhoTakeBothDoses() {
+    public List<PersonResponseDto> getAllWhoHaveNotTakenAnyDose() {
+        List<Person> personList = personRepository.findAllByVaccination();
 
-        List<Person> persons = personRepository.findAll();
+        List<PersonResponseDto> responseDtoList = new ArrayList<>();
 
-        List<String> ans = new ArrayList<>();
-
-        for(int i=0; i<persons.size(); i++){
-            Person person = persons.get(i);
-
-            if(person.isDose1Taken()==true && person.isDose2Taken()==true){
-                ans.add(person.getName());
-            }
+        for(Person person : personList){
+            responseDtoList.add(PersonTransformer.PersonToPersonResponseDto(person));
         }
 
-        return ans;
+        return responseDtoList;
+
     }
 
-    public List<String> getAllWhoHaveNotTakenAnyDose() {
-        List<Person> all = personRepository.findAll();
+    public List<PersonResponseDto>  getAllTheFamlesAboveTheCertainAgeWithDose1(int age) {
 
-        List<String> ans = new ArrayList<>();
+        List<Person> personList = personRepository.findByAgeAndByGender(age, Gender.FEMALE);
 
-        for(int i=0; i< all.size(); i++){
-            Person person = all.get(i);
+        List<PersonResponseDto> responseDtoList = new ArrayList<>();
 
-            if(!person.isDose1Taken() && !person.isDose2Taken()){
-                ans.add(person.getName());
+        for(Person person : personList){
+            if(person.isDose1Taken()){
+                responseDtoList.add(PersonTransformer.PersonToPersonResponseDto(person));
             }
         }
 
-        return ans;
+        return responseDtoList;
     }
 
-    public List<String> getAllTheFamlesAboveTheCertainAgeWithDose1(int age) {
+    public List<PersonResponseDto> getAllTheMalesAboveCertainAgeAndTakenBothDose(int age) {
+        List<Person> personList = personRepository.findByAgeAndByGender(age,Gender.MALE);
 
-        List<Person> all = personRepository.findByAge(age);
+        List<PersonResponseDto> responseDtoList = new ArrayList<>();
 
-        List<String> ans= new ArrayList<>();
-
-        for(int i=0; i<all.size(); i++){
-            Person person = all.get(i);
-
-            if(person.getGender()==Gender.FEMALE && person.isDose1Taken() && !person.isDose2Taken()){
-                ans.add(person.getName());
+        for(Person person : personList){
+            if(person.isDose1Taken() && person.isDose2Taken()){
+                responseDtoList.add(PersonTransformer.PersonToPersonResponseDto(person));
             }
         }
 
-        return ans;
-    }
+        return responseDtoList;
 
-    public List<String> getAllTheMalesAboveCertainAgeAndTakenBothDose(int age) {
-        List<Person> all = personRepository.findByAge(age);
-
-        List<String> ans = new ArrayList<>();
-
-        for(int i=0; i<all.size(); i++){
-            Person person = all.get(i);
-
-            if(person.isDose1Taken() && person.isDose2Taken() && person.getGender()==Gender.MALE){
-                ans.add(person.getName());
-            }
-        }
-
-        return ans;
     }
 }
